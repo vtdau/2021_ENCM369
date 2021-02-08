@@ -1,0 +1,5 @@
+firstname, lastname, email, git_username, repository_name
+Viet Trung, Dau, viettrung.dau@ucalgary.ca, vtdau, 2021_ENCM369
+Netra,Patel,netra.patel@ucalgary.ca,Netra-Patel,2021_ENCM369
+Baker,Ryan,ryan.baker1@ucalgary.ca,ryanbakerucalgary,2021_ENCM369
+Goni,Matzliach,goni.matzliach@ucalgary.ca,goniUofC,2021_ENCM369
