@@ -94,18 +94,16 @@ Promises:
 */
 void UserAppRun(void)
 {
-    unsigned int i, j;
-    PORTA = 1;
-    for (i=0; i<250; i++)
+    u32 u32time = 0x80;
+    while(u32time <= 0xBF )
     {
-        for(j= 0; j<10; j++);
+        PORTA = u32time;
+        for ( int i= 0; i<250; i++)
+        {
+            for ( int j= 0; j<1000; j++);
+        }
+        u32time++;
     }
-    PORTA = 0;
-    for (i=0; i<250; i++)
-    {
-        for(j= 0; j<10; j++);
-    }
-
 
 } /* end UserAppRun */
 
