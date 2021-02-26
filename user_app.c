@@ -94,17 +94,23 @@ Promises:
 */
 void UserAppRun(void)
 {
-    u32 u32time = 0x80;
-    while(u32time <= 0xBF )
+    static u32 u32old = 0x00;          
+    static u32 u32end = 0xC0;
+    static u32 u32current = 0x00; 
+    u32 u32bitmask = PORTB & 0x20;
+    
+    if(u32current != u32bitmask) 
     {
-        PORTA = u32time;
-        for ( int i= 0; i<250; i++)
+        if(u32old != 0x20)
         {
-            for ( int j= 0; j<1000; j++);
+            if(LATA == u32end)
+            {
+                LATA=0x80; 
+            }
+            LATA++;
         }
-        u32time++;
+        u32old=u32current; 
     }
-
 } /* end UserAppRun */
 
 

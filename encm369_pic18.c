@@ -88,9 +88,13 @@ Promises:
 */
 void GpioSetup(void)
 {
-    PORTA = 0x00;
+    PORTA = 0x80;
     ANSELA = 0x00;
-    TRISA = 0x00;
+    TRISA = 0x00; // set port as an output // bit form 0 to 7 would be set up as 0
+    
+    PORTB = 0x00;
+    ANSELB = 0x00;
+    TRISB = 0xFF;
 }
   
  /* end GpioSetup() */
