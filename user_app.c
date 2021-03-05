@@ -75,7 +75,9 @@ Promises:
 */
 void UserAppInitialize(void)
 {
-
+    LATA = 0x80;
+    T0CON0= 0x90;
+    T0CON1 = 0x54;
 
 } /* end UserAppInitialize() */
 
@@ -94,20 +96,36 @@ Promises:
 */
 void UserAppRun(void)
 {
-    u32 u32time = 0x80;
-    while(u32time <= 0xBF )
+    static u16 u16counter = 0x00;
+    static u8 u8index = 0x00;
+    static u8 au8pattern[8] = {0x0C, 0x12, 0x21, 0x12, 0x0C, 0x12};
+    
+    if(u16counter >= 500)
     {
-        PORTA = u32time;
-        for ( int i= 0; i<250; i++)
+        LATA = au8pattern[u8index];
+        u8index +=1;
+        u16counter = 0;
+        if(u8index == 6)
         {
-            for ( int j= 0; j<1000; j++);
+            u8index =0;
         }
-        u32time++;
     }
+    u16counter++;
+}
+    
+ /* end UserAppRun */
 
-} /* end UserAppRun */
-
-
+void TimeXMicroseconds(u16 u16MicrosecondsDelay)
+{
+    u16 e16TimerDifference = 0xFFFF - u16MicrosecondsDelay;
+    T0CON0 &= 0x7F;
+    TMR0L = u16TimerDifference <<8;
+    TMR0H = u16TimerDifference >> 8;
+    
+    PIR3 &= 0x7F;
+    T0CON = 0x80;
+    
+}
 
 /*------------------------------------------------------------------------------------------------------------------*/
 /*! @privatesection */                                                                                            
