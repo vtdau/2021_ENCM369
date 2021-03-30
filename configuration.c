@@ -69,8 +69,7 @@ Promises:
 */
 void ClockSetup(void)
 {
- 
-  
+
 } /* end ClockSetup */
 
 
@@ -88,9 +87,11 @@ Promises:
 */
 void GpioSetup(void)
 {
-    PORTA = 0x00;
-    ANSELA = 0x00;
     TRISA = 0x00;
+    ANSELA = 0x00;
+    LATA = 0x00;
+    /*Configure DAC1 for VDD and VSS references, on, and RA2 output */
+    DAC1CON = 0xA0;
 }
   
  /* end GpioSetup() */
@@ -111,7 +112,7 @@ Promises:
 void SysTickSetup(void)
 {
   G_u32SystemTime1ms = 0;      
-  G_u32SystemTime1s  = 0;   
+  G_u32SystemTime1s  = 0; 
   
 } /* end SysTickSetup() */
 

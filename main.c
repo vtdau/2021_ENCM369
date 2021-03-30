@@ -54,13 +54,26 @@ void main(void)
     /* Drivers */
        
     /* Applications */
-    UserAppRun();
+     UserAppRun();
    
-     
-    /* System sleep */
-    HEARTBEAT_OFF();
-    SystemSleep();
-    HEARTBEAT_ON();
+   #if 1  
+        /* System sleep */
+        HEARTBEAT_OFF();
+        SystemSleep();
+
+        TimeXus(11);                    /* Delay to get a 1kHz sine wave */
+        while((PIR3 & 0x80) == 0x00)    /* Wait until the interrupt bit is high */
+        {} 
+
+        HEARTBEAT_ON();
+    #endif
+
+    #if 0
+        TimeXus(2);                          /* Delay to produce 1kHz sawtooth wave */
+        while( PIR3bits.TMR0IF == 0);        /* Wait until the interrupt bit is high */
+        DAC1DATL += 4;                       /* Increment DAC register by 4 */
+        
+    #endif
     
   } /* end while(1) main super loop */
   
