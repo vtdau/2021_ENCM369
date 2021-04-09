@@ -58,8 +58,9 @@ Function Definitions
 /*! @protectedsection */                                                                                            
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-static u8 u8Index=0;                                                                                        /* initializes sin lookup table index */
+static u8 u8Index=0;                                                                                        
 static u8 UserApp_au8sinTable[] = 
+   
 {
     0x80,0x83,0x86,0x89,0x8c,0x8f,0x92,0x95,0x98,0x9b,0x9e,0xa2,0xa5,0xa7,0xaa,0xad,
     0xb0,0xb3,0xb6,0xb9,0xbc,0xbe,0xc1,0xc4,0xc6,0xc9,0xcb,0xce,0xd0,0xd3,0xd5,0xd7,
@@ -116,21 +117,21 @@ Promises:
 */
 void UserAppRun(void)
 {
-    DAC1DATL = UserApp_au8sinTable[u8Index+=4];                             /* cycle through the sin lookup table */
+    DAC1DATL = UserApp_au8sinTable[u8Index+=4];                           
     
 } /* end UserAppRun */
 
 void TimeXus(u16 u16MicrosecondsDelay)
 {
-    u16 u16TimerDiff = 0xFFFF - u16MicrosecondsDelay;                       /* calculate time before overflow */
+    u16 u16TimerDiff = 0xFFFF - u16MicrosecondsDelay;                
     
-    T0CON0 &= 0x7F;                                                         /* toggles Timer0 to low */
+    T0CON0 &= 0x7F;                                                   
     
-    TMR0L = u16TimerDiff & 0xFF;                                            /* bitmasks LSB and preloads Timer0's LSB's */
-    TMR0H = (u16TimerDiff >> 0x08) & 0xFF;                                  /* bitmasks MSB and preloads Timer0's MSB's */
+    TMR0L = u16TimerDiff & 0xFF;                                        
+    TMR0H = (u16TimerDiff >> 0x08) & 0xFF;                             
     
-    PIR3 &= 0x7F;                                                           /* toggles TMR0IF to low */
-    T0CON0 |= 0x80;                                                         /* enables Timer0 */
+    PIR3 &= 0x7F;                                                         
+    T0CON0 |= 0x80;                                                        
 }
 
 /*------------------------------------------------------------------------------------------------------------------*/
