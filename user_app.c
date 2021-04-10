@@ -59,8 +59,9 @@ Function Definitions
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 
-static u8 u8Index=0;                                                                                        
-static u8 UserApp_au8sinTable[] = 
+static u8 u8Index=0;                  // index used to cycle through the array
+                                                                      
+static u8 UserApp_au8sinTable[] =       
 {
     0x80,0x83,0x86,0x89,0x8c,0x8f,0x92,0x95,0x98,0x9b,0x9e,0xa2,0xa5,0xa7,0xaa,0xad,
     0xb0,0xb3,0xb6,0xb9,0xbc,0xbe,0xc1,0xc4,0xc6,0xc9,0xcb,0xce,0xd0,0xd3,0xd5,0xd7,
@@ -78,7 +79,8 @@ static u8 UserApp_au8sinTable[] =
     0x0a,0x0b,0x0c,0x0e,0x0f,0x11,0x12,0x14,0x15,0x17,0x19,0x1b,0x1d,0x1f,0x21,0x23,
     0x25,0x28,0x2a,0x2c,0x2f,0x31,0x34,0x36,0x39,0x3b,0x3e,0x41,0x43,0x46,0x49,0x4c,
     0x4f,0x52,0x55,0x58,0x5a,0x5d,0x61,0x64,0x67,0x6a,0x6d,0x70,0x73,0x76,0x79,0x7c
-};                                          
+}; // sine look up table                                          
+
 /*!--------------------------------------------------------------------------------------------------------------------
 @fn void UserAppInitialize(void)
 
@@ -116,23 +118,24 @@ Promises:
 
 */
 
-void UserAppRun(void)
+void UserAppRun(void)   // move through the sine look up table
 {
     DAC1DATL = UserApp_au8sinTable[u8Index+=4];                           
     
 } /* end UserAppRun */
 
-void TimeXus(u16 u16MicrosecondsDelay)
+void TimeXus(u16 u16Delay)
 {
-    u16 u16TimerDiff = 0xFFFF - u16MicrosecondsDelay;                
+    u16 u16TimerDifference = 0xFFFF - u16Delay;      // calculate time before overflow          
     
-    T0CON0 &= 0x7F;                                                   
+    T0CON0 &= 0x7F;         // timer0 to low                                          
     
-    TMR0L = u16TimerDiff & 0xFF;                                        
-    TMR0H = (u16TimerDiff >> 0x08) & 0xFF;                             
+    TMR0L = u16TimerDifference & 0xFF;        // preloads Timer0's LSB's
+                           
+    TMR0H = (u16TimerDifference >> 0x08) & 0xFF;        //preloads timer0's MSB's                     
     
-    PIR3 &= 0x7F;                                                         
-    T0CON0 |= 0x80;                                                        
+    PIR3 &= 0x7F;     // TMR0IF to low                                                      
+    T0CON0 |= 0x80;     // enable Timer0                                                   
 }
 
 /*------------------------------------------------------------------------------------------------------------------*/
