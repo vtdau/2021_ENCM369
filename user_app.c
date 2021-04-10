@@ -239,6 +239,7 @@ Promises:
 */
 void UserAppRun(void)
 {
+    
     static s8 s8Index = 0x00;                                 // u16Notes Initializing
     static u16 u16Counter = 0x00;                             // Counter Initialization
     
@@ -252,9 +253,9 @@ void UserAppRun(void)
     {
         u16Counter = 0x00;                                    // Set Counter to 0
         
-        if (s8Index == 37)                                    // Check if s8Index equalsthe length if Notes Array
+        if (s8Index == 27)                                    // Check if s8Index equalsthe length if Notes Array
         {
-            s8Index = 0xFFFF;                                 // Set s8Index to -1 to make it to able to play the first note
+            s8Index = -1;                                 // Set s8Index to -1 to make it to able to play the first note
         }
         
         InterruptTimerXus(u16Notes[s8Index + 1], 1);          // Interruption Initialization
@@ -263,8 +264,11 @@ void UserAppRun(void)
     }
     
     u16Counter++;                                             // u16Counter Increment
+    
   
 } /* end UserAppRun() */
+
+
 
 
 
