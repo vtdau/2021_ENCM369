@@ -11,6 +11,7 @@ Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_"
 ***********************************************************************************************************************/
 /* New variables */
+
 volatile u32 G_u32SystemTime1ms = 0;     /*!< @brief Global system time incremented every ms, max 2^32 (~49 days) */
 volatile u32 G_u32SystemTime1s  = 0;     /*!< @brief Global system time incremented every second, max 2^32 (~136 years) */
 volatile u32 G_u32SystemFlags   = 0;     /*!< @brief Global system flags */
@@ -36,19 +37,21 @@ void main(void)
 {
   G_u32SystemFlags |= _SYSTEM_INITIALIZING;
 
-  /* Low level initialization */
+ // Low level initialization
   ClockSetup();
   SysTickSetup();
   GpioSetup();
   
-  /* Driver initialization */
+  // Driver initialization 
  
-  /* Application initialization */
+  // Application initialization 
   UserAppInitialize();
   
-  /* Exit initialization */
+  // Exit initialization
     
-  /* Super loop */  
+  // Super loop  
+  
+  
   while(1)
   {
     /* Drivers */
@@ -61,17 +64,18 @@ void main(void)
         HEARTBEAT_OFF();
         SystemSleep();
 
-        TimeXus(11);                    /* Delay to get a 1kHz sine wave */
-        while((PIR3 & 0x80) == 0x00)    /* Wait until the interrupt bit is high */
+        TimeXus(11);                    // Delay until 1kHz sine wave 
+        while((PIR3 & 0x80) == 0x00)    // Wait for the interrupt bit is high 
         {} 
 
         HEARTBEAT_ON();
     #endif
 
+    
     #if 0
-        TimeXus(2);                          /* Delay to produce 1kHz sawtooth wave */
-        while( PIR3bits.TMR0IF == 0);        /* Wait until the interrupt bit is high */
-        DAC1DATL += 4;                       /* Increment DAC register by 4 */
+        TimeXus(2);                          // Delay 1kHz on the sawtooth wave 
+        while( PIR3bits.TMR0IF == 0);        // Wait until the interrupt bit is high 
+        DAC1DATL += 4;                       // Increment register by 4 
         
     #endif
     
