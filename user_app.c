@@ -30,6 +30,7 @@ Global variable definitions with scope across entire project.
 All Global variable names shall start with "G_<type>UserApp1"
 ***********************************************************************************************************************/
 /* New variables */
+
 volatile u8 G_u8UserAppFlags;                  /*!< @brief Global state flags */
 volatile u8 G_u8UserAppTimePeriodHi;           /*!< @brief Global saved Timer1 high count for ISR */
 volatile u8 G_u8UserAppTimePeriodLo;           /*!< @brief Global saved Timer1 low count for ISR */
@@ -212,6 +213,7 @@ void UserAppInitialize(void)
     T0CON1 = 0x54; // b'01010100'
     
     /* Timer1 initialization:
+    
      * 1:8 prescale, synced, enabled */
     T1GCON = 0x00;
     T1CLK  = 0x01;  
@@ -237,32 +239,30 @@ Promises:
 */
 void UserAppRun(void)
 {
-    static s8 s8Index = 0x00;                                 // Initializing counter for u16Notes
-    static u16 u16Counter = 0x00;                             // Initializing Counter
+    static s8 s8Index = 0x00;                                 // u16Notes Initializing
+    static u16 u16Counter = 0x00;                             // Counter Initialization
     
     /* Notes Array */
-    u16 u16Notes[] = {F4, NN, A4, NN, F4, NN, E4, NN,F4, NN, A4, NN, E4, NN, D4, NN, F4, NN, D4, NN, C4, NN, D4, NN, A4, NN, G4, NN, D4, NN, A4, NN, G4, NN, F4,
-                      NN, D4};
+    u16 u16Notes[] = {C4, NN, C4, NN, G4, NN, G4, NN,A4, NN, A4, NN, G4, NN, F4, NN, F4, NN, E4, NN, E4, NN, D4, NN, D4, NN, C4, NN};
     
     /* Notes Duration Array */
-    u16 u16NoteLength[] = {N8, RT, N8, RT, N8, RT, N1, ST, N8, RT, N8, RT, N8, RT,N2, ST, N8, RT, N8, RT, N2, ST, N8, RT, N4, RT, N2, ST, N8, RT, N4, RT, N4, RT, N4, 
-                      RT, N2, 1500};
+    u16 u16NoteLength[] = {N4, RT, N4, RT, N4, RT, N4, RT,N4, RT, N4, RT, N2, RT,N4, RT, N4, RT, N4, RT, N4, RT, N4, RT, N4, RT, N2, 2000};
     
-    if (u16Counter == u16NoteLength[s8Index])                 // if u16Counter's value is equal to index 0                             
+    if (u16Counter == u16NoteLength[s8Index])                 // Check if u16Counter's value equals to index 0                           
     {
-        u16Counter = 0x00;                                    // set Counter to 0
+        u16Counter = 0x00;                                    // Set Counter to 0
         
-        if (s8Index == 37)                                    // if s8Index equal to the length if Notes Array
+        if (s8Index == 37)                                    // Check if s8Index equalsthe length if Notes Array
         {
-            s8Index = 0xFFFF;                                 // set s8Index to -1 (Made to be able to play the first note (index = 0))
+            s8Index = 0xFFFF;                                 // Set s8Index to -1 to make it to able to play the first note
         }
         
-        InterruptTimerXus(u16Notes[s8Index + 1], 1);          // Initialize Interrupt
+        InterruptTimerXus(u16Notes[s8Index + 1], 1);          // Interruption Initialization
         
-        s8Index++;                                            // Increment s8Index to cycle through the Notes array
+        s8Index++;                                            // Cycle through s8Index in Notes array
     }
     
-    u16Counter++;                                             // increment u16Counter (End of the song)
+    u16Counter++;                                             // u16Counter Increment
   
 } /* end UserAppRun() */
 
