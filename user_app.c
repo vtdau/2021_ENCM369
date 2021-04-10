@@ -98,10 +98,11 @@ Promises:
 */
 void UserAppInitialize(void)
 {
-    LATA = 0x80;
-    T0CON0= 0x90;
-    T0CON1 = 0x54;
-    DAC1DATL = 0x00; 
+    LATA = 0x80;  // RA7 on
+    T0CON0= 0x90; //postscaler 16bit
+    T0CON1 = 0x54;  //async prescaler
+    DAC1DATL = 0x00; // DAC initialization
+  
 } /* end UserAppInitialize() */
 
   
@@ -134,7 +135,8 @@ void TimeXus(u16 u16Delay)
                            
     TMR0H = (u16TimerDifference >> 0x08) & 0xFF;        //preloads timer0's MSB's                     
     
-    PIR3 &= 0x7F;     // TMR0IF to low                                                      
+    PIR3 &= 0x7F;     // TMR0IF to low    
+  
     T0CON0 |= 0x80;     // enable Timer0                                                   
 }
 
